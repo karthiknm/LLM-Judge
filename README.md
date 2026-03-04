@@ -1,4 +1,4 @@
-# LLM-Judge for Summarization (5-Day Plan)
+# LLM-Judge for Summarization
 
 ## Goal
 Build and evaluate a student LLM judge for summarization quality via teacher distillation, under a tight timeline and low API budget.
@@ -49,20 +49,7 @@ Start with 3k annotations; expand later only if needed.
 ## Evaluation
 1. **SummEval**: Spearman/Kendall correlation with human scores.
 2. **FRANK**: factuality classification metrics (F1/accuracy).
-3. Reliability checks: output variance across repeated runs.
-4. Efficiency: latency/cost comparison vs teacher API.
 
-## Anti-Leakage Rules
-- Do not train on SummEval or FRANK.
-- Keep benchmark sets fully test-only.
-- Document split logic and any de-duplication steps.
-
-## 5-Day Execution Snapshot
-1. Data prep + synthetic summary generation.
-2. Teacher annotation pipeline + JSON validation.
-3. Student LoRA training.
-4. Benchmark evaluation + ablations.
-5. Error analysis + report tables.
 
 ## Expected Outcome
 A practical, budget-aware LLM-judge pipeline showing whether a distilled student can approximate teacher/human judgment for summarization quality and factuality.
