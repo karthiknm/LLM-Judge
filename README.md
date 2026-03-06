@@ -10,12 +10,7 @@ Build and evaluate a student LLM judge for summarization quality via teacher dis
 4. Evaluate only on human-annotated benchmarks (no benchmark training).
 
 ## Dataset Plan
-- Synthetic training pool: `3,000` source documents total
-  - `1,800` from CNN/DailyMail
-  - `1,200` from XSum
-- Benchmark test sets (held out, test-only):
-  - SummEval (human alignment)
-  - FRANK (factuality transfer)
+- The GPT 5 Mini annotated dataset for this work can be found at `https://drive.google.com/file/d/1EWf4DZtYFDdldjel4sT24LaFfa5_t4Ru/view?usp=sharing`
 
 ## Synthetic Summary Generation
 Use local/open summarizers for diversity (no API cost), e.g.:
