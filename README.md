@@ -9,7 +9,7 @@ Build and evaluate a student LLM judge for summarization quality via teacher dis
 3. Fine-tune a smaller open model (LoRA/SFT) on teacher outputs.
 4. Evaluate only on human-annotated benchmarks (no benchmark training).
 
-## Dataset Plan
+## GPT Annotated Dataset
 - The GPT 5 Mini annotated dataset for this work can be found at `https://drive.google.com/file/d/1EWf4DZtYFDdldjel4sT24LaFfa5_t4Ru/view?usp=sharing`
 
 ## Synthetic Summary Generation
