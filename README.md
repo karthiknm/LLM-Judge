@@ -14,6 +14,7 @@ Build and evaluate a student LLM judge for summarization quality via teacher dis
 
 ## Model weights
 - The model weights for the Qwen 3B model is available at `https://drive.google.com/file/d/1C-OtxrzitICP9Dxzb9vdzQvxkIZ5A9Wt/view?usp=sharing`
+- The model weights for the Qwen 1.5B model is available at `https://drive.google.com/drive/folders/1kA74LaTS1PGdgGfPD7ICdbCCNSu4MvQS?usp=sharing`
 
 ## Synthetic Summary Generation
 Use local/open summarizers for diversity (no API cost), e.g.:
