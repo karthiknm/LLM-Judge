@@ -1,6 +1,3 @@
-Upload this whole folder to:
-/content/drive/MyDrive/llm_judge/model1.5b
-
 Notebooks:
 - LLMjudge eval on summeval batch 1.ipynb
 - LLMjudge eval on summeval batch 2.ipynb
@@ -22,6 +19,3 @@ Expected outputs after running:
 - eval_tables_summeval_qwen15_batch1.csv
 - eval_tables_summeval_qwen15_batch2.csv
 - eval_tables_summeval_qwen15_batch3.csv
-
-These notebooks expect the adapter to already exist at:
-/content/drive/MyDrive/llm_judge/artifacts/qwen25_1.5b_lora_judge/final
