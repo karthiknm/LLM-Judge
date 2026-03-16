@@ -1,11 +1,11 @@
 """
 Summary Judge Demo — Gradio Web Interface
 ==========================================
-使用前请先填写下方路径配置：
+change the below path：
   - BASE_MODEL  : Hugging Face model name 
   - ADAPTER_PATH: your local fine-tuned LoRA adapter path
 
-运行方式：
+Run：
     pip install torch transformers peft bitsandbytes gradio
     python summary_judge_demo.py
 """
