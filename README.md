@@ -1,13 +1,11 @@
 # LLM-Judge for Summarization
 
-## Goal
-Build and evaluate a student LLM judge for summarization quality via teacher distillation, under a tight timeline and low API budget.
+This repository contains the code and resources for distilling a large language model (LLM) judge into a smaller open-weight model for scalable summarization evaluation.
 
-## Core Idea
-1. Generate synthetic summary data from news documents using local summarizers.
-2. Use a strong teacher LLM API to produce rubric scores + concise reasoning.
-3. Fine-tune a smaller open model (LoRA/SFT) on teacher outputs.
-4. Evaluate only on human-annotated benchmarks (no benchmark training).
+Recent work shows that strong LLMs can evaluate summaries more reliably than traditional lexical metrics such as ROUGE or BERTScore. However, using large proprietary models as judges can be expensive and difficult to deploy at scale. This project investigates whether the evaluation behavior of a strong LLM judge can be transferred to smaller models through distillation.
+
+The system trains compact student models to imitate rubric-based judgments produced by a stronger teacher model.
+
 
 ## GPT Annotated Dataset
 - The GPT 5 Mini annotated dataset for this work can be found at `https://drive.google.com/file/d/1EWf4DZtYFDdldjel4sT24LaFfa5_t4Ru/view?usp=sharing`
@@ -17,38 +15,53 @@ Build and evaluate a student LLM judge for summarization quality via teacher dis
 - The model weights for the Qwen 1.5B model is available at `https://drive.google.com/drive/folders/1kA74LaTS1PGdgGfPD7ICdbCCNSu4MvQS?usp=sharing`
 
 ## Synthetic Summary Generation
-Use local/open summarizers for diversity (no API cost), e.g.:
+We use the following summarization models to generate 5000 synthetic summaries before passing them to the teacher model (GPT 5 Mini) for further annotation.
 - `facebook/bart-large-cnn`
 - `google/pegasus-cnn_dailymail` or `google/pegasus-xsum`
-- `sshleifer/distilbart-cnn-12-6` (or equivalent distilBART)
+- `Sachin21112004/distilbart-news-summarizer` 
 
-Assign one summarizer per source (randomized mix) to avoid style collapse.
 
-## Teacher Annotation (API)
-For each `(source, generated_summary)` pair, request strict JSON with:
+## Teacher Annotation 
+We use the GPT-5 Mini model for annotation of the generated summaries.
+For each `(source, generated_summary)` the annotation is done for the following:
 - `coherence` (1-5)
 - `consistency` (1-5)
 - `fluency` (1-5)
 - `relevance` (1-5)
-- `overall` (1-5)
-- `strict_factuality` (0/1)
-- `confidence` (0-1)
-- `rationale` (concise evidence-grounded explanation)
+- `reasoning` (concise evidence-grounded explanation)
 
-Start with 3k annotations; expand later only if needed.
+## Student Model Training
 
-## Student Fine-Tuning
-- Base model: small open LLM (roughly 1B-8B)
-- Method: LoRA SFT (e.g., Unsloth)
-- Objective: next-token prediction on structured assistant output (JSON-style)
-- Key ablation:
-  - score-only targets
-  - rationale + score targets
+Student models are trained to reproduce the teacher outputs using supervised fine-tuning.
 
-## Evaluation
-1. **SummEval**: Spearman/Kendall correlation with human scores.
-2. **FRANK**: factuality classification metrics (F1/accuracy).
+**Base models**
 
+- Qwen2.5-1.5B  
+- Qwen2.5-3B  
 
-## Expected Outcome
-A practical, budget-aware LLM-judge pipeline showing whether a distilled student can approximate teacher/human judgment for summarization quality and factuality.
+**Training setup**
+
+- Parameter-efficient fine-tuning using LoRA  
+- Autoregressive generation of structured JSON outputs  
+- Objective: token-level cross-entropy on teacher outputs  
+
+The model learns to predict both:
+
+- rubric scores  
+- accompanying reasoning traces  
+
+This allows the student judge to approximate not only the scoring behavior of the teacher but also the explanatory patterns behind its judgments.
+
+---
+
+## Demo
+
+A small demo application was developed to showcase the distilled evaluation system.  
+The application allows users to input a document and a candidate summary and receive rubric-based evaluation scores along with explanations.
+
+**Demo video**
+
+https://drive.google.com/file/d/1_drGImqm8EdT04yQHVzoHYFL0S7LRzKV/view
+
+The code for the demo application is included in this repository.
+
